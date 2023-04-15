@@ -1,0 +1,58 @@
+*{
+	color: #fff;
+	margin: 0;
+	padding: 0;
+}
+QWidget {
+	background-color: #121212;
+	font-family: Rubik;
+	font-size: 10pt;
+	font-weight: 600;
+}
+QPushButton {
+	border-radius: 20px;
+	border: none;
+}
+QListWidget {
+	border: none;
+	font-size: 10pt;
+	background-color: #121212;
+}
+QScrollBar:vertical {
+	border: none;
+	outline: none;
+	background: #676767;
+	width: 8px;
+}
+QScrollBar::handle:vertical {
+	background: #676767;
+}
+QScrollBar:horizontal {
+	border: none;
+	outline: none;
+	background: #676767;
+	height: 8px;
+}
+QScrollBar::handle:horizontal {
+	background: #676767;
+}
+QScrollBar::add-line:horizontal {
+	border: none;
+	background: #32CC99;
+	width: 20px;
+}
+QScrollBar::sub-line:horizontal {
+	border: none;
+	background: #32CC99;
+	width: 20px;
+}
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+	border: none;
+	background: #121212;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: #999;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+	background: #999;
+}
