@@ -1,25 +1,17 @@
-import sys
-import random
+import sys, os, random
 import resource_rc
-import mutagen
-import pandas as pd
-import os
 
 from design import Ui_MainWindow
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QUrl, QDir, Qt, QSettings, QTime, QCoreApplication
-from PyQt5.QtWidgets import QFileDialog, QMainWindow
-from PyQt5.QtGui import QIcon
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist, QMediaMetaData
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtCore import QUrl, QDir, Qt, QSettings, QTime, QCoreApplication
+from PySide6.QtWidgets import QFileDialog, QMainWindow
+from PySide6.QtGui import QIcon
+from PySide6.QtMultimedia import QMediaPlayer, QMediaMetaData
+
+from playsound import playsound 
 
 
-# from mutagen.mp3 import MP3
-# from mutagen import id3 as mu
-# from mutagen import *
-
-# from os.path import expanduser
-# from functools import partial
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -34,15 +26,20 @@ class MainWindow(QMainWindow):
 
 		self.dir = f'{QDir.currentPath()}'
 		self.url = QUrl()
-		self.player = QMediaPlayer()
-		self.content = QMediaContent()
-		self.playlist = QMediaPlaylist(self.player)
-		self.player.setPlaylist(self.playlist)
+		# self.player = AudioSegment.from_file("C:/Users/Ilya/Music/music/Адонай.mp3")
+		# play(self.player)
+		# self.player = mixer
+		# self.player.init()
+		# self.player.music.load("C:/Users/Ilya/Music/music/Адонай.mp3")
+		# self.player.music.set_volume(0.7)
+		# self.player.music.play()
+		playsound('C:/Users/Ilya/Music/music/Адонай.mp3')
+		self.playlist = []
+		self.currentIndex = 0
 
-		self.playlist.currentIndexChanged.connect(self.update)
-		self.player.metaDataChanged.connect(self.meta_data)
-		self.player.positionChanged.connect(self.position_changed)
-		self.player.durationChanged.connect(self.duration_changed)
+		# self.player.metaDataChanged.connect(self.meta_data)
+		# self.player.positionChanged.connect(self.position_changed)
+		# self.player.durationChanged.connect(self.duration_changed)
 
 		self.ui.play_pushButton.setEnabled(False)
 
@@ -65,38 +62,41 @@ class MainWindow(QMainWindow):
 	def get_music(self):
 		files = QFileDialog.getOpenFileNames(None, filter='Audio Files (*.mp3 *.mp4 *.avi *.mov *.ogg *.wav)')
 		for track in files[0]:
-			self.playlist.addMedia(QMediaContent(self.url.fromLocalFile(track)))
+			self.playlist.append(track)
 			track = track.split('/')
 			self.ui.listWidget.addItem(f'{track[-1][:-4]}')
 		self.ui.play_pushButton.setEnabled(True)
-		self.ui.listWidget.setCurrentRow(0)
-		self.playlist.setCurrentIndex(0)
+		self.ui.listWidget.setCurrentRow(self.currentIndex)
+		print(self.playlist[self.currentIndex])
+		# self.player.from_file("C:/Users/Ilya/Music/music/Адонай.mp3")
+		# self.player.PlaySound(self.playlist[self.currentIndex], winsound.SND_FILENAME)
 
 	def meta_data(self):
-		if self.player.isMetaDataAvailable():
-			if self.player.metaData(QMediaMetaData.Title) is None:
-				result = "Name unknown"
-				self.ui.track_label.setText(result)
-			else:
-				string = self.player.metaData(QMediaMetaData.Title)
-				result = ""
-				index = ["()","-",".","holycrds","pro"]
-				for i in string:
-					if i not in index:
-						result += i
-				self.ui.track_label.setText(result.translate({ord(i): None for i in 'holycrdspro'}))
-			# -------------------------------------------------------
-			if self.player.metaData(QMediaMetaData.Author) is None:
-				result_string = "Name unknown"
-				self.ui.artist_label.setText(result_string)
-			else:
-				my_string = self.player.metaData(QMediaMetaData.Author)
-				result_string = ""
-				index = ["[","]","'"]
-				for i in my_string:
-					if i not in index:
-						result_string += i
-				self.ui.artist_label.setText(result_string)
+		pass
+		# if self.player.isMetaDataAvailable():
+		# 	if self.player.metaData(QMediaMetaData.Title) is None:
+		# 		result = "Name unknown"
+		# 		self.ui.track_label.setText(result)
+		# 	else:
+		# 		string = self.player.metaData(QMediaMetaData.Title)
+		# 		result = ""
+		# 		index = ["()","-",".","holycrds","pro"]
+		# 		for i in string:
+		# 			if i not in index:
+		# 				result += i
+		# 		self.ui.track_label.setText(result.translate({ord(i): None for i in 'holycrdspro'}))
+		# 	# -------------------------------------------------------
+		# 	if self.player.metaData(QMediaMetaData.Author) is None:
+		# 		result_string = "Name unknown"
+		# 		self.ui.artist_label.setText(result_string)
+		# 	else:
+		# 		my_string = self.player.metaData(QMediaMetaData.Author)
+		# 		result_string = ""
+		# 		index = ["[","]","'"]
+		# 		for i in my_string:
+		# 			if i not in index:
+		# 				result_string += i
+		# 		self.ui.artist_label.setText(result_string)
 			# pixmap = QtGui.QPixmap()
 			# # track = track.split('/')
 			# metadata = mutagen.File(f'{QMediaContent(self.url.fromLocalFile())}')
@@ -117,46 +117,49 @@ class MainWindow(QMainWindow):
 		else:
 			self.played()
 	def paused(self):
-		self.playlist.setCurrentIndex(self.ui.listWidget.currentRow())
-		self.player.play()
+		# self.playlist.setCurrentIndex(self.ui.listWidget.currentRow())
+		# self.player.play()
 		self.ui.play_pushButton.setIcon(QIcon(":/icons/play.png"))
 		self.playPause = False
-	def played(self):
+	# def played(self):
 		self.player.pause()
 		self.ui.play_pushButton.setIcon(QIcon(":/icons/pause.png"))
 		self.playPause = True
 
 	def play_slider_changed(self, position):
-		self.player.setPosition(position)
+		pass
+		# self.player.setPosition(position)
 
 	def next(self):
-		self.playlist.next()
-		if self.playlist.currentIndex() == -1:
-			self.playlist.setCurrentIndex(0)
-			self.player.play()
+		pass
+		# self.playlist.next()
+		# if self.playlist.currentIndex() == -1:
+		# 	self.playlist.setCurrentIndex(0)
+			# self.player.play()
 
 	def prev(self):
-		if self.playlist.previousIndex() == -1:
-			self.playlist.setCurrentIndex(self.playlist.mediaCount()-1)
-		else:
-			self.playlist.previous()
+		pass
+		# if self.playlist.previousIndex() == -1:
+		# 	self.playlist.setCurrentIndex(self.playlist.mediaCount()-1)
+		# else:
+			# self.playlist.previous()
 
 	def delete(self):
 		clicked = self.ui.listWidget.currentRow()
 		self.ui.listWidget.takeItem(clicked)
 
 	def clear(self):
-		self.player.stop()
+		# self.player.stop()
 		self.ui.listWidget.clear()
-		self.playlist.clear()
+		# self.playlist.clear()
 		self.ui.track_label.clear()
 		self.ui.artist_label.clear()
 
 	def update(self):
-		self.ui.listWidget.setCurrentRow(self.playlist.currentIndex())
-		if self.playlist.currentIndex() < 0:
+		# self.ui.listWidget.setCurrentRow(self.playlist.currentIndex())
+		# if self.playlist.currentIndex() < 0:
 			self.ui.listWidget.setCurrentRow(0)
-			self.playlist.setCurrentIndex(0)
+			# self.playlist.setCurrentIndex(0)
 
 	def position_changed(self, position):
 		if(self.ui.horizontalSlider.maximum() != self.player.duration()):
@@ -174,15 +177,16 @@ class MainWindow(QMainWindow):
 		self.ui.horizontalSlider.setRange(0, duration)
 
 	def volume_slider_changed(self, position):
-		self.player.setVolume(position)
+		pass
+		# self.player.setVolume(position)
 
 	def volume_mute(self):
 		if(self.muted):
-			self.player.setMuted(False)
+			# self.player.setMuted(False)
 			self.ui.mute_pushButton.setIcon(QIcon(":/icons/volume.png"))
 			self.muted = False
 		else:
-			self.player.setMuted(True)
+			# self.player.setMuted(True)
 			self.ui.mute_pushButton.setIcon(QIcon(":/icons/mute.png"))
 			self.muted = True
 
@@ -190,12 +194,12 @@ class MainWindow(QMainWindow):
 	def sortRandom(self):
 		self.rand_pressed = True
 		list_item = [self.ui.listWidget.item(row).text() for row in range(self.ui.listWidget.count())]
-		data = pd.DataFrame(dict(
-			Путь=[self.dir],
-			Список=[list_item]))
-		print(data)
-		random.shuffle(list_item)
-		print(data)
+		# data = pd.DataFrame(dict(
+		# 	Путь=[self.dir],
+		# 	Список=[list_item]))
+		# print(data)
+		# random.shuffle(list_item)
+		# print(data)
 		# self.ui.listWidget
 
 	def minimized(self):
@@ -223,4 +227,4 @@ if __name__ == "__main__":
 	app = QtWidgets.QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
-	sys.exit(app.exec_())
+	sys.exit(app.exec())

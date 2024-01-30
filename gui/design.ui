@@ -38,15 +38,15 @@
    <font>
     <family>Rubik</family>
     <pointsize>10</pointsize>
+    <weight>75</weight>
     <bold>true</bold>
    </font>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string notr="true"/>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/icons/player.png</normaloff>:/icons/player.png</iconset>
   </property>
   <property name="toolTip">
    <string notr="true"/>
@@ -133,6 +133,9 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
   </property>
   <property name="dockNestingEnabled">
    <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
@@ -308,6 +311,7 @@ background-color: #fff;</string>
            <font>
             <family>Rubik</family>
             <pointsize>24</pointsize>
+            <weight>75</weight>
             <bold>true</bold>
             <kerning>false</kerning>
            </font>
@@ -348,6 +352,7 @@ padding: 0 0 0 10px;</string>
            <font>
             <family>Rubik</family>
             <pointsize>10</pointsize>
+            <weight>75</weight>
             <bold>true</bold>
             <kerning>false</kerning>
            </font>
@@ -440,6 +445,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -485,6 +491,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -530,6 +537,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -735,6 +743,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -777,6 +786,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -819,6 +829,7 @@ QSlider::groove:horizontal {
          <font>
           <family>Rubik</family>
           <pointsize>10</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
