@@ -69,8 +69,7 @@
   <property name="styleSheet">
    <string notr="true">QMainWindow {
 	background: #121212;
-	border-top-right-radius: 10px;
-	border-top-left-radius:  10px;
+	border-radius: 15px;
 }
 *{
 	color: #fff;
@@ -130,6 +129,9 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
   </property>
   <property name="windowFilePath">
    <string notr="true"/>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
   </property>
   <property name="dockNestingEnabled">
    <bool>false</bool>
@@ -196,6 +198,12 @@ background-color: #fff;</string>
         <property name="text">
          <string/>
         </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="indent">
          <number>0</number>
         </property>
@@ -207,7 +215,7 @@ background-color: #fff;</string>
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="currentPosition">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -238,7 +246,7 @@ background-color: #fff;</string>
             </property>
             <property name="icon">
              <iconset resource="resource.qrc">
-              <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+              <normaloff>:/icons/minimize.png</normaloff>:/icons/minimize.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -310,7 +318,7 @@ background-color: #fff;</string>
           <property name="font">
            <font>
             <family>Rubik</family>
-            <pointsize>24</pointsize>
+            <pointsize>18</pointsize>
             <weight>75</weight>
             <bold>true</bold>
             <kerning>false</kerning>
@@ -320,7 +328,7 @@ background-color: #fff;</string>
            <cursorShape>ArrowCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-size: 24pt;
+           <string notr="true">font-size: 18pt;
 padding: 0 0 0 10px;</string>
           </property>
           <property name="text">
@@ -328,6 +336,9 @@ padding: 0 0 0 10px;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
           <property name="indent">
            <number>0</number>
@@ -354,7 +365,6 @@ padding: 0 0 0 10px;</string>
             <pointsize>10</pointsize>
             <weight>75</weight>
             <bold>true</bold>
-            <kerning>false</kerning>
            </font>
           </property>
           <property name="styleSheet">
@@ -367,6 +377,9 @@ padding: 0 0 0 10px;</string>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
           </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -374,7 +387,7 @@ padding: 0 0 0 10px;</string>
      </layout>
     </item>
     <item>
-     <widget class="QSlider" name="horizontalSlider">
+     <widget class="QSlider" name="audioPosSlider">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -428,7 +441,7 @@ QSlider::groove:horizontal {
        <number>4</number>
       </property>
       <item>
-       <widget class="QPushButton" name="preview_pushButton">
+       <widget class="QPushButton" name="prevBtn">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -460,7 +473,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/back-.png</normaloff>:/icons/back-.png</iconset>
+          <normaloff>:/icons/previous.png</normaloff>:/icons/previous.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -474,7 +487,7 @@ QSlider::groove:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="play_pushButton">
+       <widget class="QPushButton" name="chengePlayBtn">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -506,7 +519,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/pause.png</normaloff>:/icons/pause.png</iconset>
+          <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -520,7 +533,7 @@ QSlider::groove:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="next_pushButton">
+       <widget class="QPushButton" name="nextBtn">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -552,7 +565,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/forward+.png</normaloff>:/icons/forward+.png</iconset>
+          <normaloff>:/icons/next-button.png</normaloff>:/icons/next-button.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -566,65 +579,51 @@ QSlider::groove:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mute_pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
+       <widget class="QWidget" name="widget" native="true">
         <property name="maximumSize">
          <size>
-          <width>40</width>
-          <height>40</height>
+          <width>150</width>
+          <height>16777215</height>
          </size>
         </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="resource.qrc">
-          <normaloff>:/icons/volume.png</normaloff>:/icons/volume.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSlider" name="valume_Slider">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="toolTipDuration">
-         <number>-1</number>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QSlider::handle:horizontal {
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QSlider" name="valumeSlider">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="toolTipDuration">
+            <number>-1</number>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QSlider::handle:horizontal {
     background: #fff;
     width: 5px;
     margin: -2px 0;
@@ -637,34 +636,75 @@ QSlider::groove:horizontal {
 	margin: 2px 0;
 	border-radius: 2px;
  }</string>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-        <property name="singleStep">
-         <number>1</number>
-        </property>
-        <property name="value">
-         <number>100</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="tickInterval">
-         <number>0</number>
-        </property>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="singleStep">
+            <number>1</number>
+           </property>
+           <property name="value">
+            <number>100</number>
+           </property>
+           <property name="tracking">
+            <bool>true</bool>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+           <property name="tickInterval">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="chengeMuteBtn">
+           <property name="minimumSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/volume.png</normaloff>:/icons/volume.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="listMusic">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -715,7 +755,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/random.png</normaloff>:/icons/random.png</iconset>
+          <normaloff>:/icons/shuffle.png</normaloff>:/icons/shuffle.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -726,7 +766,7 @@ QSlider::groove:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="loc_pushButton">
+       <widget class="QPushButton" name="openFolderBtn">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -758,7 +798,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/select.png</normaloff>:/icons/select.png</iconset>
+          <normaloff>:/icons/open-file.png</normaloff>:/icons/open-file.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -844,7 +884,7 @@ QSlider::groove:horizontal {
         </property>
         <property name="icon">
          <iconset resource="resource.qrc">
-          <normaloff>:/icons/clear.png</normaloff>:/icons/clear.png</iconset>
+          <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -860,7 +900,6 @@ QSlider::groove:horizontal {
   </widget>
  </widget>
  <tabstops>
-  <tabstop>valume_Slider</tabstop>
   <tabstop>del_pushButton</tabstop>
   <tabstop>clear_pushButton</tabstop>
  </tabstops>
