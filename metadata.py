@@ -1,19 +1,20 @@
-from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
-from mutagen.id3 import ID3, APIC
+from mutagen.id3 import ID3
+from music_tag import load_file
+
 
 def get_title(src):
-    audio = EasyID3(src)
-    if 'title' in audio:
-        title = audio['title'][0]
+    tag = load_file(src)
+    if tag.get('title'):
+        title = tag.get('title')
     else:
         title = src.split("\\")[-1]
     return title
 
 def get_artist(src):
-    audio = EasyID3(src)
-    if 'artist' in audio:
-        artist = audio['artist'][0]
+    tag = load_file(src)
+    if tag.get('artist'):
+        artist = tag.get('artist')
     else:
         artist = "Unknown Artist"
     return artist
